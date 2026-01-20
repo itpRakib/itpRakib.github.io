@@ -127,11 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initCarousel();
     initSkillsGrid();
     initParticles();
-    
+
     // C. Setup Mobile Menu
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
-    if(menuToggle && navMenu) {
+    if (menuToggle && navMenu) {
         menuToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
             menuToggle.classList.toggle('active');
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // D. Hire Me Button Logic
     const hireMeBtn = document.getElementById('hireMeBtn');
     const hireMeOptions = document.getElementById('hireMeOptions');
-    if(hireMeBtn && hireMeOptions) {
+    if (hireMeBtn && hireMeOptions) {
         hireMeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             hireMeOptions.classList.toggle('active');
@@ -176,8 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach((el, index) => {
         el.classList.add('reveal-hidden');
-        if(el.classList.contains('stat-card') || el.classList.contains('skill-hexagon')) {
-            el.style.transitionDelay = `${(index % 4) * 0.1}s`; 
+        if (el.classList.contains('stat-card') || el.classList.contains('skill-hexagon')) {
+            el.style.transitionDelay = `${(index % 4) * 0.1}s`;
         }
         revealObserver.observe(el);
     });
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            card.style.background = ''; 
+            card.style.background = '';
         });
     });
 
@@ -250,9 +250,9 @@ function createCarouselItem(data, index) {
     const item = document.createElement('div');
     item.className = 'carousel-item';
     item.dataset.index = index;
-    
+
     const techBadges = data.tech.map(tech => `<span class="tech-badge">${tech}</span>`).join('');
-    
+
     item.innerHTML = `
         <div class="card">
             <div class="card-number">0${data.id}</div>
@@ -269,11 +269,11 @@ function createCarouselItem(data, index) {
 }
 
 function initCarousel() {
-    if(!carousel) return;
+    if (!carousel) return;
     portfolioData.forEach((data, index) => {
         const item = createCarouselItem(data, index);
         carousel.appendChild(item);
-        
+
         const indicator = document.createElement('div');
         indicator.className = 'indicator';
         if (index === 0) indicator.classList.add('active');
@@ -282,15 +282,15 @@ function initCarousel() {
         indicatorsContainer.appendChild(indicator);
     });
     updateCarousel();
-    
+
     // Auto-rotate
     setInterval(nextSlide, 5000);
-    
+
     // Controls
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
-    if(nextBtn) nextBtn.addEventListener('click', nextSlide);
-    if(prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 }
 
 function updateCarousel() {
@@ -299,22 +299,22 @@ function updateCarousel() {
     const totalItems = items.length;
     const isMobile = window.innerWidth <= 768;
     const isTablet = window.innerWidth <= 1024;
-    
+
     items.forEach((item, index) => {
         let offset = index - currentIndex;
         if (offset > totalItems / 2) offset -= totalItems;
         else if (offset < -totalItems / 2) offset += totalItems;
-        
+
         const absOffset = Math.abs(offset);
         const sign = offset < 0 ? -1 : 1;
-        
+
         // Reset styles
         item.style.transform = '';
         item.style.opacity = '';
         item.style.zIndex = '';
-        
+
         let spacing = isMobile ? 280 : (isTablet ? 340 : 400);
-        
+
         if (absOffset === 0) {
             item.style.transform = 'translate(-50%, -50%) translateZ(0) scale(1)';
             item.style.opacity = '1';
@@ -333,7 +333,7 @@ function updateCarousel() {
             item.style.zIndex = '1';
         }
     });
-    
+
     indicators.forEach((indicator, index) => {
         indicator.classList.toggle('active', index === currentIndex);
     });
@@ -358,14 +358,14 @@ function goToSlide(index) {
 function initSkillsGrid() {
     const skillsGrid = document.getElementById('skillsGrid');
     const categoryTabs = document.querySelectorAll('.category-tab');
-    if(!skillsGrid) return;
+    if (!skillsGrid) return;
 
     function displaySkills(category = 'all') {
         skillsGrid.innerHTML = '';
-        const filteredSkills = category === 'all' 
-            ? skillsData 
+        const filteredSkills = category === 'all'
+            ? skillsData
             : skillsData.filter(skill => skill.category === category);
-        
+
         filteredSkills.forEach((skill, index) => {
             const hexagon = document.createElement('div');
             hexagon.className = 'skill-hexagon reveal-hidden'; // Add reveal class
@@ -383,15 +383,15 @@ function initSkillsGrid() {
                 </div>
             `;
             skillsGrid.appendChild(hexagon);
-            
+
             // Re-observe new elements for animation
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
             });
             observer.observe(hexagon);
         });
     }
-    
+
     categoryTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             categoryTabs.forEach(t => t.classList.remove('active'));
@@ -399,7 +399,7 @@ function initSkillsGrid() {
             displaySkills(tab.dataset.category);
         });
     });
-    
+
     displaySkills();
 }
 
@@ -464,7 +464,7 @@ window.addEventListener('scroll', () => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         const sectionId = section.getAttribute('id');
-        
+
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             navLinks.forEach(link => {
                 link.classList.remove('active');
@@ -521,7 +521,7 @@ if (statsSection) statsObserver.observe(statsSection);
 
 // Form Submission
 const contactForm = document.getElementById('contactForm');
-if(contactForm) {
+if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const formData = new FormData(contactForm);
@@ -534,7 +534,7 @@ if(contactForm) {
 // Loader Logic (Consolidated)
 window.addEventListener('load', () => {
     const loader = document.getElementById('loader');
-    if(loader) {
+    if (loader) {
         // Fade out
         loader.classList.add('hidden');
         // Remove from DOM after fade to prevent clicks blocking
